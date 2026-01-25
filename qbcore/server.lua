@@ -3,6 +3,20 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local prefix = "bot:"
 
 local serverCommands = {
+    -- exemplo de comando "kick" usado em conjunto com o rnld_api
+    ["kick"] = function(data)
+        local token = data.token
+        local reason = data.reason or "Sem Motivo"
+        local plysrc = exports['rnld_api']:getSourceByToken(token)
+
+        if plysrc then
+            DropPlayer(plysrc, reason)
+            return ("Jogador %s kickado. Motivo: %s"):format(token, reason)
+        else
+            return ("Jogador com token %s não encontrado"):format(token)
+        end
+    end,
+
     ["item"] = function(data)
         local id = tonumber(data.id) or 0
         local item = tostring(data.item or "")
